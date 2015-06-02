@@ -44,12 +44,16 @@ public class HoppingRightAlong {
 
 	private static final Logger log = LoggerFactory.getLogger(HoppingRightAlong.class);
 
+	private final ParameterizedTypeReference<Resource<Album>> albumType = new ParameterizedTypeReference<Resource<Album>>() {};
+	private final ParameterizedTypeReference<Resource<Book>> bookType = new ParameterizedTypeReference<Resource<Book>>() {};
+	private final Traverson traverson;
+
+	public HoppingRightAlong() throws URISyntaxException {
+		traverson = new Traverson(new URI("http://localhost:8080/api/"), MediaTypes.HAL_JSON);
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/traverson/book/{isbn}")
 	public @ResponseBody Resource<Book> hopToBook(@PathVariable String isbn) throws URISyntaxException {
-
-		ParameterizedTypeReference<Resource<Book>> bookType = new ParameterizedTypeReference<Resource<Book>>() {};
-
-		Traverson traverson = new Traverson(new URI("http://localhost:8080/api/"), MediaTypes.HAL_JSON);
 
 		Resource<Book> book = traverson
 				.follow("books", "search")
@@ -63,10 +67,6 @@ public class HoppingRightAlong {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/traverson/album/{isbn}")
 	public @ResponseBody Resource<Album> hopToAlbum(@PathVariable String isbn) throws URISyntaxException {
-
-		ParameterizedTypeReference<Resource<Album>> albumType = new ParameterizedTypeReference<Resource<Album>>() {};
-
-		Traverson traverson = new Traverson(new URI("http://localhost:8080/api/"), MediaTypes.HAL_JSON);
 
 		Resource<Album> album = traverson
 				.follow("albums", "search")
