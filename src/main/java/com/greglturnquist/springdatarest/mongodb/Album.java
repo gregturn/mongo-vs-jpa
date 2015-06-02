@@ -40,4 +40,8 @@ public class Album {
 		this.title = title;
 	}
 
+	protected Album() {
+
+	}
+
 }
